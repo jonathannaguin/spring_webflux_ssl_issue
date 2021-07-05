@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: demo
+  main:
+    lazy-initialization: false
+  codec:
+    max-in-memory-size: 512KB
+
+
+server:
+  port: 8081
+  ssl:
+    key-alias: demo
+    key-store-type: PKCS12
+    key-store-password: democert
+    key-store: classpath:demo.p12
+    enabled: false #ChangeMe!
+  shutdown: graceful
+  error:
+    include-message: always
+
+logging:
+    level:
+        com.example: 'DEBUG'
+        org.springframework: 'WARN'
+        com.amazonaws.util.EC2MetadataUtils: 'ERROR'
+
+management:
+  health:
+    jms:
+      # do not enable JMS otherwise spring boot tries to use the activeMQ dependency provided by DataLake which is really old
+      enabled: false
+  metrics:
+    export:
+      cloudwatch:
+        namespace: demo
+        batchSize: 20
+
+cloud:
+  aws:
+    region:
+      static: ${AWS_REGION:}
+      auto: false
+    stack:
+      auto: false

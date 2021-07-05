@@ -1,0 +1,48 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.2'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'io.gatling.gradle' version '3.6.0'
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation "org.hibernate.validator:hibernate-validator:6.0.20.Final"
+	implementation "com.google.code.findbugs:jsr305:3.0.2"
+	implementation "com.amazonaws:aws-java-sdk-dynamodb:1.11.783"
+	implementation "org.apache.commons:commons-lang3:3.10"
+	implementation "com.googlecode.libphonenumber:libphonenumber:8.12.3"
+	implementation "com.google.code.gson:gson:2.8.6"
+	implementation 'io.projectreactor.tools:blockhound:1.0.6.RELEASE'
+	implementation "org.springdoc:springdoc-openapi-webflux-ui:1.3.9"
+	implementation "com.playtika.reactivefeign:feign-reactor-webclient:3.0.3"
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+bootJar {
+	archiveName "application.jar"
+	mainClassName = "com.example.demo.DemoApplication"
+	classifier = "full"
+}
+
+gatling {
+	systemProperties System.properties
+}
+
+tasks.gatlingRun.outputs.upToDateWhen { false }
+
